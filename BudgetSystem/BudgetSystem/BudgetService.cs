@@ -15,26 +15,13 @@ namespace BudgetSystem
 
         public decimal Query(DateTime start, DateTime end)
         {
-
-            if (start == end)
-            {
-                var allAmount = _budgetRepo.GetAll();
-                var yearMonth = start.ToString("yyyyMM");
-                return GetAmountForOneDay(start, allAmount);
-
-            }
-            if (start < end)
+            if (IsValidInput(start, end))
             {
                 var allAmount = _budgetRepo.GetAll();
                 
-                var amount=0;
-                var startYearMonth = new DateTime(start.Year,start.Month,1);
-                var lendYearMonth = new DateTime(end.Year,end.Month,1);
-                
-
-                
-                if (startYearMonth != lendYearMonth)
+                if (IsNotSameMonth(start, end))
                 {
+                    var amount=0;
                     var lastDayOfStartMonth = new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month));
                     var days = (lastDayOfStartMonth - start).Days+1;
                     amount+= days * GetAmountForOneDay(start, allAmount);
@@ -64,6 +51,19 @@ namespace BudgetSystem
                 return amount;
             }
             return 0;
+        }
+
+        private static bool IsNotSameMonth(DateTime start, DateTime end)
+        {
+            var startYearMonth = new DateTime(start.Year,start.Month,1);
+            var lendYearMonth = new DateTime(end.Year,end.Month,1);
+
+            return startYearMonth != lendYearMonth;
+        }
+
+        private static bool IsValidInput(DateTime start, DateTime end)
+        {
+            return start <= end;
         }
 
         private int GetAmountForOneDay(DateTime start, List<Budget> allAmount)

@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="893dd0c9-fc66-429e-864a-7107926f0932" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BudgetSystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BudgetSystem/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BudgetSystem/BudgetService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BudgetSystem/BudgetService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BudgetSystem/BudgetServiceTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BudgetSystem/BudgetServiceTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +42,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1636791683550</updated>
-      <workItem from="1636791689637" duration="4506000" />
+      <workItem from="1636791689637" duration="4846000" />
     </task>
     <servers />
   </component>
