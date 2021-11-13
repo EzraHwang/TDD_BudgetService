@@ -25,19 +25,20 @@ namespace BudgetSystem
                     return ((end - start).Days + 1) * GetAmountForOneDay(start, allAmount);
                 }
 
-                amount = GetStartMonthAmount(start, amount, allAmount);
+                amount += GetStartMonthAmount(start, allAmount);
 
-                amount = GetEndMonthAmount(end, amount, allAmount);
+                amount += GetEndMonthAmount(end, allAmount);
 
-                amount = GetMiddleMonthsAmount(start, end, amount, allAmount);
+                amount += GetMiddleMonthsAmount(start, end, allAmount);
 
                 return amount;
             }
             return 0;
         }
 
-        private static int GetMiddleMonthsAmount(DateTime start, DateTime end, int amount, List<Budget> allAmount)
+        private static int GetMiddleMonthsAmount(DateTime start, DateTime end, List<Budget> allAmount)
         {
+            var amount = 0;
             var secondYearMonth = new DateTime(start.Year, start.Month + 1, 1);
             var lastSecondEndYearMonth = new DateTime(end.Year, end.Month - 1, 1);
 
@@ -51,20 +52,18 @@ namespace BudgetSystem
             return amount;
         }
 
-        private static int GetEndMonthAmount(DateTime end, int amount, List<Budget> allAmount)
+        private static int GetEndMonthAmount(DateTime end, List<Budget> allAmount)
         {
             var firstDayOfEndMonth = new DateTime(end.Year, end.Month, 1);
             var days = (end - firstDayOfEndMonth).Days + 1;
-            amount += days * GetAmountForOneDay(end, allAmount);
-            return amount;
+            return days * GetAmountForOneDay(end, allAmount);
         }
 
-        private static int GetStartMonthAmount(DateTime start, int amount, List<Budget> allAmount)
+        private static int GetStartMonthAmount(DateTime start, List<Budget> allAmount)
         {
             var lastDayOfStartMonth = new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month));
             var days = (lastDayOfStartMonth - start).Days + 1;
-            amount += days * GetAmountForOneDay(start, allAmount);
-            return amount;
+            return days * GetAmountForOneDay(start, allAmount);
         }
 
         private static bool IsSameMonth(DateTime start, DateTime end)
