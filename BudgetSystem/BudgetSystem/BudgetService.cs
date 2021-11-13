@@ -19,19 +19,17 @@ namespace BudgetSystem
             {
                 var allAmount = _budgetRepo.GetAll();
                 var amount=0;
-                if (IsNotSameMonth(start, end))
+                if (IsSameMonth(start, end))
                 {   
-                    amount = GetStartMonthAmount(start, amount, allAmount);
-
-                    amount = GetEndMonthAmount(end, amount, allAmount);
-
-                    amount = GetMiddleMonthsAmount(start, end, amount, allAmount);
-                }
-                else
-                {
                     return ((end - start).Days + 1) * GetAmountForOneDay(start, allAmount);
                 }
-                
+
+                amount = GetStartMonthAmount(start, amount, allAmount);
+
+                amount = GetEndMonthAmount(end, amount, allAmount);
+
+                amount = GetMiddleMonthsAmount(start, end, amount, allAmount);
+
                 return amount;
             }
             return 0;
@@ -69,12 +67,12 @@ namespace BudgetSystem
             return amount;
         }
 
-        private static bool IsNotSameMonth(DateTime start, DateTime end)
+        private static bool IsSameMonth(DateTime start, DateTime end)
         {
             var startYearMonth = new DateTime(start.Year,start.Month,1);
             var lendYearMonth = new DateTime(end.Year,end.Month,1);
 
-            return startYearMonth != lendYearMonth;
+            return startYearMonth == lendYearMonth;
         }
 
         private static bool IsValidInput(DateTime start, DateTime end)
