@@ -83,9 +83,8 @@ namespace BudgetSystem
 
         private int GetAmountForOneDay(DateTime start, IEnumerable<Budget> allAmount)
         {
-            var budget = allAmount.FirstOrDefault(x => x.YearMonth.Equals(start.ToString("yyyyMM")));
-            return budget == null ? 0 : budget.Amount /
-                   DateTime.DaysInMonth(start.Year, start.Month);
+            var amount= GetAmountForAllMonth(allAmount, start.ToString("yyyyMM"));
+            return amount / DateTime.DaysInMonth(start.Year, start.Month);
         }
 
         private int GetAmountForAllMonth(IEnumerable<Budget> allAmount, string yearMonth)
