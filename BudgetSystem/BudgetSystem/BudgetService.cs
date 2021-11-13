@@ -18,19 +18,14 @@ namespace BudgetSystem
             if (IsValidInput(start, end))
             {
                 var allAmount = _budgetRepo.GetAll();
-                
+                var amount=0;
                 if (IsNotSameMonth(start, end))
                 {
-                    var amount=0;
-                    var lastDayOfStartMonth = new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month));
-                    var days = (lastDayOfStartMonth - start).Days+1;
-                    amount+= days * GetAmountForOneDay(start, allAmount);
+                    
+                    amount = GetStartMonthAmount(start, amount, allAmount);
 
-                    var firstDayOfEndMonth = new DateTime(end.Year, end.Month, 1);
-                    days = (end - firstDayOfEndMonth).Days + 1;
-                    amount += days * GetAmountForOneDay(end, allAmount);
-                
-                
+                    amount = GetEndMonthAmount(end, amount, allAmount);
+
 
                     var secondYearMonth = new DateTime(start.Year,start.Month+1,1);
                     var lastSecondEndYearMonth = new DateTime(end.Year,end.Month-1,1);
@@ -51,6 +46,22 @@ namespace BudgetSystem
                 return amount;
             }
             return 0;
+        }
+
+        private int GetEndMonthAmount(DateTime end, int amount, List<Budget> allAmount)
+        {
+            var firstDayOfEndMonth = new DateTime(end.Year, end.Month, 1);
+            var days = (end - firstDayOfEndMonth).Days + 1;
+            amount += days * GetAmountForOneDay(end, allAmount);
+            return amount;
+        }
+
+        private int GetStartMonthAmount(DateTime start, int amount, List<Budget> allAmount)
+        {
+            var lastDayOfStartMonth = new DateTime(start.Year, start.Month, DateTime.DaysInMonth(start.Year, start.Month));
+            var days = (lastDayOfStartMonth - start).Days + 1;
+            amount += days * GetAmountForOneDay(start, allAmount);
+            return amount;
         }
 
         private static bool IsNotSameMonth(DateTime start, DateTime end)
