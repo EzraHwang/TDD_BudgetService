@@ -20,23 +20,12 @@ namespace BudgetSystem
                 var allAmount = _budgetRepo.GetAll();
                 var amount=0;
                 if (IsNotSameMonth(start, end))
-                {
-                    
+                {   
                     amount = GetStartMonthAmount(start, amount, allAmount);
 
                     amount = GetEndMonthAmount(end, amount, allAmount);
 
-
-                    var secondYearMonth = new DateTime(start.Year,start.Month+1,1);
-                    var lastSecondEndYearMonth = new DateTime(end.Year,end.Month-1,1);
-                
-                    while (secondYearMonth<=lastSecondEndYearMonth)
-                    {
-                        var yearMonth = secondYearMonth.ToString("yyyyMM");
-                        amount+=GetAmountForAllMonth(allAmount, yearMonth);
-
-                        secondYearMonth=secondYearMonth.AddMonths(1);
-                    }
+                    amount = GetMiddleMonthsAmount(start, end, amount, allAmount);
                 }
                 else
                 {
@@ -46,6 +35,22 @@ namespace BudgetSystem
                 return amount;
             }
             return 0;
+        }
+
+        private static int GetMiddleMonthsAmount(DateTime start, DateTime end, int amount, List<Budget> allAmount)
+        {
+            var secondYearMonth = new DateTime(start.Year, start.Month + 1, 1);
+            var lastSecondEndYearMonth = new DateTime(end.Year, end.Month - 1, 1);
+
+            while (secondYearMonth <= lastSecondEndYearMonth)
+            {
+                var yearMonth = secondYearMonth.ToString("yyyyMM");
+                amount += GetAmountForAllMonth(allAmount, yearMonth);
+
+                secondYearMonth = secondYearMonth.AddMonths(1);
+            }
+
+            return amount;
         }
 
         private int GetEndMonthAmount(DateTime end, int amount, List<Budget> allAmount)

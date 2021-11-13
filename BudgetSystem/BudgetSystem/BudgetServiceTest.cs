@@ -67,8 +67,16 @@ namespace BudgetSystem
         public void EmptyData()
         {
             GenerateFakeData();
-            var query = _budgetService.Query(new DateTime(2021, 10, 01), new DateTime(2021, 10, 31));
+            var query = _budgetService.Query(new DateTime(2021, 09, 01), new DateTime(2021, 09, 30));
             Assert.AreEqual(0, query);
+        }
+        
+        [Test]
+        public void TestCase()
+        {
+            GenerateFakeData();
+            var query = _budgetService.Query(new DateTime(2021, 10, 02), new DateTime(2021, 12, 01));
+            Assert.AreEqual(7000, query);
         }
 
 
@@ -76,6 +84,11 @@ namespace BudgetSystem
         {
             _budgetRepo.GetAll().Returns(new List<Budget>
             {
+                new Budget()
+                {
+                    YearMonth = "202110",
+                    Amount = 3100
+                },
                 new Budget()
                 {
                     YearMonth = "202111",
