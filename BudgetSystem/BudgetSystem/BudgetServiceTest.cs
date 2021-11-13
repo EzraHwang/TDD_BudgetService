@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BudgetSystem.Model;
 using NSubstitute;
 using NUnit.Framework;
 
