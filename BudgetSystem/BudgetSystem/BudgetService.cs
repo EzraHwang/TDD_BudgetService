@@ -35,7 +35,7 @@ namespace BudgetSystem
             return 0;
         }
 
-        private static int GetMiddleMonthsAmount(DateTime start, DateTime end, int amount, List<Budget> allAmount)
+        private int GetMiddleMonthsAmount(DateTime start, DateTime end, int amount, List<Budget> allAmount)
         {
             var secondYearMonth = new DateTime(start.Year, start.Month + 1, 1);
             var lastSecondEndYearMonth = new DateTime(end.Year, end.Month - 1, 1);
@@ -67,27 +67,27 @@ namespace BudgetSystem
             return amount;
         }
 
-        private static bool IsSameMonth(DateTime start, DateTime end)
+        private bool IsSameMonth(DateTime start, DateTime end)
         {
             var startYearMonth = new DateTime(start.Year,start.Month,1);
-            var lendYearMonth = new DateTime(end.Year,end.Month,1);
+            var endYearMonth = new DateTime(end.Year,end.Month,1);
 
-            return startYearMonth == lendYearMonth;
+            return startYearMonth == endYearMonth;
         }
 
-        private static bool IsValidInput(DateTime start, DateTime end)
+        private bool IsValidInput(DateTime start, DateTime end)
         {
             return start <= end;
         }
 
-        private int GetAmountForOneDay(DateTime start, List<Budget> allAmount)
+        private int GetAmountForOneDay(DateTime start, IEnumerable<Budget> allAmount)
         {
             var budget = allAmount.FirstOrDefault(x => x.YearMonth.Equals(start.ToString("yyyyMM")));
             return budget == null ? 0 : budget.Amount /
                    DateTime.DaysInMonth(start.Year, start.Month);
         }
 
-        private static int GetAmountForAllMonth(List<Budget> allAmount, string yearMonth)
+        private int GetAmountForAllMonth(IEnumerable<Budget> allAmount, string yearMonth)
         {
             var budget = allAmount.FirstOrDefault(x => x.YearMonth.Equals(yearMonth));
             return budget?.Amount ?? 0;
