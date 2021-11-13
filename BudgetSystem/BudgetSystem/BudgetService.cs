@@ -43,8 +43,7 @@ namespace BudgetSystem
 
             while (secondYearMonth <= lastSecondEndYearMonth)
             {
-                var yearMonth = secondYearMonth.ToString("yyyyMM");
-                amount += GetAmountForAllMonth(allAmount, yearMonth);
+                amount += GetAmountForAllMonth(allAmount, secondYearMonth);
 
                 secondYearMonth = secondYearMonth.AddMonths(1);
             }
@@ -83,13 +82,13 @@ namespace BudgetSystem
 
         private static int GetAmountForOneDay(DateTime start, IEnumerable<Budget> allAmount)
         {
-            var amount= GetAmountForAllMonth(allAmount, start.ToString("yyyyMM"));
+            var amount= GetAmountForAllMonth(allAmount, start);
             return amount / DateTime.DaysInMonth(start.Year, start.Month);
         }
 
-        private static int GetAmountForAllMonth(IEnumerable<Budget> allAmount, string yearMonth)
+        private static int GetAmountForAllMonth(IEnumerable<Budget> allAmount, DateTime date)
         {
-            var budget = allAmount.FirstOrDefault(x => x.YearMonth.Equals(yearMonth));
+            var budget = allAmount.FirstOrDefault(x => x.YearMonth.Equals(date.ToString("yyyyMM")));
             return budget?.Amount ?? 0;
         }
     }
